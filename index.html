@@ -3,36 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cijferstrijd - Made by Maxime</title>
+<title>Cijferstrijd – Made by Maxime</title>
+
 <style>
-/* Algemene stijl */
+/* ---------- BASIS ---------- */
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
-    padding: 0;
     background: linear-gradient(to bottom, #f0f4f8, #ffffff);
     color: #333;
 }
 
-/* Header */
+/* ---------- HEADER ---------- */
 header {
     background-color: #3a7bd5;
     color: white;
     display: flex;
     align-items: center;
-    padding: 20px 30px; /* iets grotere header */
-    gap: 25px; /* meer ruimte tussen logo en tekst */
+    gap: 25px;
+    padding: 20px 30px;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
-header img {
-    height: 150px; /* logo 2,5x groter (60px -> 150px) */
-}
-header h1 {
-    font-size: 28px;
-    margin: 0;
-}
+header img { height: 150px; }
+header h1 { margin: 0; font-size: 28px; }
 
-/* Main content */
+/* ---------- LAYOUT ---------- */
 main {
     display: flex;
     flex-direction: column;
@@ -41,7 +36,7 @@ main {
     gap: 40px;
 }
 
-/* Calculator cards */
+/* ---------- CARDS ---------- */
 .calculator {
     background-color: #ffffffdd;
     padding: 25px;
@@ -49,20 +44,15 @@ main {
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     max-width: 650px;
     width: 100%;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: 0.3s;
 }
 .calculator:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
+h2 { color: #3a7bd5; }
 
-/* Titels */
-h2 {
-    color: #3a7bd5;
-    margin-bottom: 15px;
-}
-
-/* Rijen voor cijfers */
+/* ---------- INPUTS ---------- */
 .grade-row {
     display: flex;
     align-items: center;
@@ -70,218 +60,267 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* Inputs */
-input[type="number"] {
-    width: 70px;
-    padding: 6px 8px;
+input, textarea {
+    padding: 8px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 15px;
 }
 
-input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    max-width: 400px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
+input[type="number"] { width: 70px; }
+textarea { resize: vertical; height: 90px; }
 
-textarea {
-    height: 100px;
-    resize: vertical;
-}
-
-/* Knoppen */
+/* ---------- BUTTONS ---------- */
 button {
     background-color: #3a7bd5;
     color: white;
     border: none;
-    padding: 10px 18px;
-    border-radius: 12px;
+    padding: 8px 16px;
+    border-radius: 10px;
     cursor: pointer;
-    font-size: 15px;
-    transition: 0.2s;
 }
-button:hover {
-    background-color: #2c5aa0;
-}
+button:hover { background-color: #2c5aa0; }
 
-/* Resultaten */
+/* ---------- RESULTS ---------- */
 .result {
-    margin-top: 15px;
+    margin-top: 12px;
     font-weight: bold;
-    font-size: 16px;
 }
 
-/* Banner afbeeldingen / reclame */
+/* ---------- ERRORS ---------- */
+.error {
+    color: #d9534f;
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+.error-field {
+    border: 2px solid #d9534f;
+}
+
+/* ---------- BANNERS ---------- */
 .banner {
-    width: 100%;
     max-width: 650px;
+    width: 100%;
     border-radius: 12px;
-    margin-top: 15px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .banner img {
+    width: 100%;
     height: 150px;
-    width: auto;
-    display: block;
-    border-radius: 12px;
+    object-fit: cover;
 }
-.banner:hover img {
-    transform: scale(1.02);
-    transition: 0.3s;
+
+/* ---------- FOOTER ---------- */
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+}
+footer img { height: 150px; }
+footer span {
+    font-size: 24px;
+    color: #3a7bd5;
+    font-weight: bold;
 }
 </style>
 </head>
+
 <body>
 
 <header>
-    <img src="https://i.imgur.com/t3zv6JL.png" alt="Cijferstrijd Logo">
-    <h1 style="margin-left: 10px;">Cijferstrijd - Made by Maxime</h1>
+    <img src="https://i.imgur.com/t3zv6JL.png" alt="Cijferstrijd logo">
+    <h1>Cijferstrijd – Made by Maxime</h1>
 </header>
 
 <main>
 
-<!-- Banner https://i.imgur.com/LPAqDnZ.png -->
 <div class="banner">
-    <img src="https://i.imgur.com/LPAqDnZ.png" alt="School foto">
+    <img src="https://i.imgur.com/LPAqDnZ.png" alt="School banner">
 </div>
 
-<!-- Doelcijfer Calculator -->
-<div class="calculator">
+<!-- DOELCIJFER -->
+<div class="calculator" id="goalCalc">
     <h2>Doelcijfer Calculator</h2>
-    <div id="goalGrades"></div>
-    <button onclick="addGoalGrade()">Voeg cijfer toe</button>
-    <div style="margin-top: 12px;">
-        <label>Doelgemiddelde: </label>
-        <input type="number" id="goalTarget" step="0.1" min="1" max="10" placeholder="bijv. 5.5">
-        <label>Weging volgende toets: </label>
-        <input type="number" id="goalNextWeight" step="1" min="1" value="1">
+    <div class="grades"></div>
+    <button class="add">Voeg cijfer toe</button>
+
+    <div style="margin-top:10px;">
+        Doelgemiddelde:
+        <input type="number" id="goalTarget" step="0.1" min="1" max="10">
+        Weging volgende toets:
+        <input type="number" id="goalNextWeight" min="1" value="1">
     </div>
-    <button onclick="calculateGoal()" style="margin-top:10px;">Bereken benodigd cijfer</button>
-    <div class="result" id="goalResult"></div>
+
+    <button class="calculate">Bereken benodigd cijfer</button>
+    <div class="result"></div>
 </div>
 
-<!-- Gewogen Gemiddelde Calculator -->
-<div class="calculator">
+<!-- GEMIDDELDE -->
+<div class="calculator" id="avgCalc">
     <h2>Gewogen Gemiddelde Calculator</h2>
-    <div id="avgGrades"></div>
-    <button onclick="addAvgGrade()">Voeg cijfer toe</button>
-    <button onclick="calculateAverage()" style="margin-top: 10px;">Bereken gemiddelde</button>
-    <div class="result" id="avgResult"></div>
+    <div class="grades"></div>
+    <button class="add">Voeg cijfer toe</button>
+    <button class="calculate">Bereken gemiddelde</button>
+    <div class="result"></div>
 </div>
 
-<!-- Contact Formulier -->
-<div class="calculator">
+<!-- CONTACT -->
+<div class="calculator" id="contactForm">
     <h2>Contact</h2>
-    <form action="mailto:maxime_0183@snapchat.com" method="post" enctype="text/plain">
-        <label for="name">Naam:</label><br>
-        <input type="text" id="name" name="name" required><br>
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="message">Bericht:</label><br>
-        <textarea id="message" name="message" required></textarea><br>
+    <form novalidate>
+        <label>Naam</label><br>
+        <input type="text" id="name">
+        <div class="error" id="nameError"></div>
+
+        <label>Email</label><br>
+        <input type="email" id="email">
+        <div class="error" id="emailError"></div>
+
+        <label>Bericht</label><br>
+        <textarea id="message"></textarea>
+        <div class="error" id="messageError"></div>
+
         <button type="submit">Verstuur</button>
+        <div class="result" id="formResult"></div>
     </form>
 </div>
 
-<!-- Reclame / educatieve banner -->
 <div class="banner">
     <img src="https://images.unsplash.com/photo-1581091870623-6ecfaaf0c33c?auto=format&fit=crop&w=1200&q=60" alt="Educatieve banner">
 </div>
 
-<!-- Footer met Snapchat -->
-<footer style="display: flex; align-items: center; justify-content: center; padding: 20px; gap: 15px; margin-top: 40px;">
-    <img src="https://logos-world.net/wp-content/uploads/2020/04/Snapchat-Logo.png" alt="Snapchat Logo" style="height: 150px;">
-    <span style="font-size: 24px; color: #3a7bd5; font-weight: bold;">maxime_0183</span>
+</main>
+
+<footer>
+    <img src="https://logos-world.net/wp-content/uploads/2020/04/Snapchat-Logo.png" alt="Snapchat">
+    <span>maxime_0183</span>
 </footer>
 
 <script>
-/* --- Doelcijfer Calculator --- */
-let goalContainer = document.getElementById('goalGrades');
+/* ---------- CALCULATORS ---------- */
+const MAX_ROWS = 10;
 
-function addGoalGrade(value='', weight=1) {
-    const rows = goalContainer.querySelectorAll('.grade-row');
-    if (rows.length >= 10) return;
+function createRow() {
     const row = document.createElement('div');
     row.className = 'grade-row';
     row.innerHTML = `
-        Cijfer: <input type="number" class="goalGrade" step="0.1" min="1" max="10" value="${value}">
-        Weging: <input type="number" class="goalWeight" step="1" min="1" value="${weight}">
-        <button onclick="removeGrade(this)">Verwijder</button>
+        Cijfer <input type="number" class="grade" step="0.1" min="1" max="10">
+        Weging <input type="number" class="weight" min="1" value="1">
+        <button class="remove">Verwijder</button>
     `;
-    goalContainer.appendChild(row);
+    return row;
 }
 
-function removeGrade(btn) {
-    const rows = btn.parentElement.parentElement.querySelectorAll('.grade-row');
-    if (rows.length <= 2) return;
-    btn.parentElement.remove();
-}
+function setupCalculator(calc, isGoal) {
+    const gradesDiv = calc.querySelector('.grades');
+    const addBtn = calc.querySelector('.add');
+    const calcBtn = calc.querySelector('.calculate');
+    const result = calc.querySelector('.result');
 
-function calculateGoal() {
-    const grades = document.querySelectorAll('.goalGrade');
-    const weights = document.querySelectorAll('.goalWeight');
-    if (grades.length < 2) {
-        document.getElementById('goalResult').innerText = "Voer minimaal 2 cijfers in!";
-        return;
+    function addRow() {
+        if (gradesDiv.children.length < MAX_ROWS) {
+            gradesDiv.appendChild(createRow());
+        }
     }
 
-    let total = 0, totalWeight = 0;
-    for (let i=0;i<grades.length;i++){
-        let g=parseFloat(grades[i].value);
-        let w=parseFloat(weights[i].value);
-        if(!isNaN(g)&&!isNaN(w)){total+=g*w; totalWeight+=w;}
-    }
+    addBtn.addEventListener('click', addRow);
 
-    let target=parseFloat(document.getElementById('goalTarget').value);
-    let nextWeight=parseFloat(document.getElementById('goalNextWeight').value)||1;
-    if(isNaN(target)){document.getElementById('goalResult').innerText="Voer een doelgemiddelde in!"; return;}
-    let needed=((target*(totalWeight+nextWeight))-total)/nextWeight;
-    needed=needed.toFixed(2);
-    if(needed>10) needed="Hoger dan 10";
-    if(needed<1) needed="Niet nodig, je staat al hoger";
-    let currentAverage=(totalWeight?(total/totalWeight).toFixed(2):0);
-    document.getElementById('goalResult').innerHTML=`Huidig gemiddelde: ${currentAverage} <br> Nodig op volgende toets: ${needed}`;
+    gradesDiv.addEventListener('click', e => {
+        if (e.target.classList.contains('remove') && gradesDiv.children.length > 2) {
+            e.target.parentElement.remove();
+        }
+    });
+
+    calcBtn.addEventListener('click', () => {
+        const grades = gradesDiv.querySelectorAll('.grade');
+        const weights = gradesDiv.querySelectorAll('.weight');
+
+        let total = 0, totalWeight = 0;
+        grades.forEach((g, i) => {
+            const grade = parseFloat(g.value);
+            const weight = parseFloat(weights[i].value);
+            if (!isNaN(grade) && !isNaN(weight)) {
+                total += grade * weight;
+                totalWeight += weight;
+            }
+        });
+
+        if (totalWeight === 0) {
+            result.innerText = 'Voer minimaal 2 geldige cijfers in.';
+            return;
+        }
+
+        if (isGoal) {
+            const target = parseFloat(document.getElementById('goalTarget').value);
+            const nextWeight = parseFloat(document.getElementById('goalNextWeight').value) || 1;
+
+            if (isNaN(target)) {
+                result.innerText = 'Voer een doelgemiddelde in.';
+                return;
+            }
+
+            let needed = ((target * (totalWeight + nextWeight)) - total) / nextWeight;
+            let current = (total / totalWeight).toFixed(2);
+
+            if (needed > 10) needed = 'Hoger dan 10';
+            else if (needed < 1) needed = 'Niet nodig';
+            else needed = needed.toFixed(2);
+
+            result.innerHTML = `Huidig gemiddelde: ${current}<br>Nodig op volgende toets: ${needed}`;
+        } else {
+            result.innerText = `Gemiddelde: ${(total / totalWeight).toFixed(2)}`;
+        }
+    });
+
+    addRow();
+    addRow();
 }
 
-/* --- Gewogen Gemiddelde Calculator --- */
-let avgContainer = document.getElementById('avgGrades');
-function addAvgGrade(value='',weight=1){
-    const rows = avgContainer.querySelectorAll('.grade-row');
-    if(rows.length>=10) return;
-    const row=document.createElement('div');
-    row.className='grade-row';
-    row.innerHTML=`
-        Cijfer: <input type="number" class="avgGrade" step="0.1" min="1" max="10" value="${value}">
-        Weging: <input type="number" class="avgWeight" step="1" min="1" value="${weight}">
-        <button onclick="removeGrade(this)">Verwijder</button>
-    `;
-    avgContainer.appendChild(row);
+setupCalculator(document.getElementById('goalCalc'), true);
+setupCalculator(document.getElementById('avgCalc'), false);
+
+/* ---------- CONTACT FORM ---------- */
+const form = document.querySelector('#contactForm form');
+const nameInput = document.getElementById('name');
+const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
+
+const nameError = document.getElementById('nameError');
+const emailError = document.getElementById('emailError');
+const messageError = document.getElementById('messageError');
+const formResult = document.getElementById('formResult');
+
+function showError(input, errorEl, msg) {
+    input.classList.add('error-field');
+    errorEl.innerText = msg;
 }
 
-function calculateAverage(){
-    const grades=document.querySelectorAll('.avgGrade');
-    const weights=document.querySelectorAll('.avgWeight');
-    if(grades.length<2){document.getElementById('avgResult').innerText="Voer minimaal 2 cijfers in!"; return;}
-    let total=0,totalWeight=0;
-    for(let i=0;i<grades.length;i++){
-        let g=parseFloat(grades[i].value);
-        let w=parseFloat(weights[i].value);
-        if(!isNaN(g)&&!isNaN(w)){total+=g*w; totalWeight+=w;}
-    }
-    let avg=totalWeight?(total/totalWeight).toFixed(2):0;
-    document.getElementById('avgResult').innerText=`Gemiddelde: ${avg}`;
+function clearError(input, errorEl) {
+    input.classList.remove('error-field');
+    errorEl.innerText = '';
 }
 
-// Voeg standaard 2 rijen toe
-addGoalGrade(); addGoalGrade();
-addAvgGrade(); addAvgGrade();
-</script>
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    let valid = true;
 
-</body>
-</html>
+    if (nameInput.value.trim().length < 2) {
+        showError(nameInput, nameError, 'Naam moet minimaal 2 tekens bevatten.');
+        valid = false;
+    } else clearError(nameInput, nameError);
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput.value)) {
+        showError(emailInput, emailError, 'Voer een geldig e-mailadres in.');
+        valid = false;
+    } else clearError(emailInput, emailError);
+
+    if (messageInput.value.trim().length < 10) {
+        showError(messageInput, messageError, 'Bericht moet minimaal 10 tekens bevatten.');
+        valid = false;
+    } else clearError(messageInput, messageError);
+
+    if (valid) {
